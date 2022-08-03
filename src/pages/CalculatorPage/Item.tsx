@@ -1,7 +1,7 @@
-import { Box, Divider, Grid, IconButton, MenuItem, Paper, TextField } from "@mui/material";
+import { Box, CircularProgress, Divider, Grid, IconButton, MenuItem, Paper, TextField } from "@mui/material";
 import { UnitService } from "core/queries/unit";
 import { useQuery } from "@tanstack/react-query";
-import { CarbonData, CarbonEntity, Unit, Usage } from "core/types";
+import { CarbonEntity, Unit, Usage } from "core/types";
 import React from "react";
 import styles from './Item.module.scss';
 import { useCarbonData } from "core/hooks";
@@ -24,8 +24,8 @@ export default function Item({
 }: ItemProps) {
     const { category } = useParams();
     const { update, remove } = useCarbonData();
-    const { data: time_types } = useQuery<Unit[]>(['units', 'time'], UnitService.getByType);
-    const { data: units } = useQuery<Unit[]>(['units', usage?.unit_type], UnitService.getByType, {
+    const { data: time_types, isLoading: timeTypesLoading } = useQuery<Unit[]>(['units', 'time'], UnitService.getByType);
+    const { data: units, isLoading: unitsLoading } = useQuery<Unit[]>(['units', usage?.unit_type], UnitService.getByType, {
         enabled: !!usage
     });
 
@@ -42,11 +42,20 @@ export default function Item({
     const handleChange = (e: React.ChangeEvent<{ name: string, value: unknown }>) => {
         update(category, id, { [e.target.name]: e.target.value });
     }
+    
+    if(timeTypesLoading || unitsLoading || !usages)
+        return (
+            <Paper className={styles.paper}>
+                <div className={styles.loadingWrapper}>
+                    <CircularProgress />
+                </div>
+            </Paper>
+        );
 
     return (
         <Paper className={styles.paper}>
             <Grid container spacing={1}>
-                <Grid item xs={3}>
+                <Grid item xs={12} sm={6} md={3}>
                     <TextField
                         name='usage'
                         label='Type'
@@ -63,7 +72,7 @@ export default function Item({
                 {
                     usage &&
                     <>
-                        <Grid item xs={3}>
+                        <Grid item xs={12} sm={6} md={3}>
                             <TextField
                                 type='number'
                                 name='value'
@@ -74,7 +83,7 @@ export default function Item({
                                 fullWidth
                             />
                         </Grid>
-                        <Grid item xs={1}>
+                        <Grid item xs={12} sm={6} md={1}>
                             <TextField
                                 name='unit_type'
                                 label='Unit'
@@ -89,7 +98,7 @@ export default function Item({
                                 ))}
                             </TextField>
                         </Grid>
-                        <Grid item xs={1}>
+                        <Grid item xs={12} sm={6} md={2}>
                             <TextField
                                 name='time_type'
                                 label='Per'
@@ -100,7 +109,9 @@ export default function Item({
                                 fullWidth>
                                 <MenuItem disabled>Select an option...</MenuItem>
                                 {time_types?.map(({ name }) => (
-                                    <MenuItem key={name} value={name}>{name.toUpperCase()}</MenuItem>
+                                    <MenuItem key={name} value={name}>
+                                        {name[0].toUpperCase() + name.slice(1)}
+                                    </MenuItem>
                                 ))}
                             </TextField>
                         </Grid>

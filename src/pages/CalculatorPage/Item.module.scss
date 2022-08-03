@@ -5,6 +5,12 @@
     padding: 1em;
 }
 
+.loadingWrapper {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
 .removeBox {
     display: flex;
     justify-content: flex-end;
