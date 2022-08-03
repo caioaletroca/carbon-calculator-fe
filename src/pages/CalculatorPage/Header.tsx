@@ -27,7 +27,11 @@ export default function Header() {
     });
 
     const handleClick = () => {
-        const payload = Object.values(carbonData).reduce((sum, data) => [ ...sum, ...data ], []);
+        // Build the raw data
+        const raw = Object.values(carbonData).reduce((sum, data) => [ ...sum, ...data ], []);
+
+        // Remove field with empty values
+        const payload = raw.filter(data => data.value && data.usage && data.unit_type && data.time_type);
 
         mutate(payload, {
             onSuccess: handleSuccess,   

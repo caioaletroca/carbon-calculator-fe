@@ -81,6 +81,10 @@ export default function Item({
                                 onChange={handleValueChange}
                                 size='small'
                                 fullWidth
+                                inputProps={{
+                                    min: 0,
+                                    max: 1000000000
+                                }}
                             />
                         </Grid>
                         <Grid item xs={12} sm={6} md={1}>
