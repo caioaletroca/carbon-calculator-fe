@@ -10,16 +10,20 @@ import { useNavigate } from "react-router-dom";
 import Card from "./Card";
 import styles from './index.module.scss';
 
+interface ReportDataByCategory {
+    [x: string]: ReportData[]
+}
+
 export default function ReportPage() {
     const navigate = useNavigate();
     const { sum, data } = useReport();
     const { data: categories } = useQuery<Category[]>(['categories'], CategoryService.get);
     
-    const usagesByCategory = React.useMemo(() => {
+    const usagesByCategory: ReportDataByCategory = React.useMemo(() => {
         return categories?.reduce((sum, category) => ({
             ...sum,
             [category.name]: data?.filter(usage => usage.category_id === category.id)
-        }), {});
+        }), {}) as ReportDataByCategory;
     }, [data, categories]);
 
     const handleBack = () => navigate(-1)
@@ -39,9 +43,9 @@ export default function ReportPage() {
                             <Grid container spacing={2}>
                                 {
                                     usagesByCategory &&
-                                    Object.entries(usagesByCategory as any).map(([ category, data ], index) => (
+                                    Object.entries(usagesByCategory).map(([ category, data ], index) => (
                                         <Grid key={index} item xs={12} sm={6} md={4}>
-                                            <Card category={category} data={data as ReportData[]} />
+                                            <Card category={category} data={data} />
                                         </Grid>
                                     ))
                                 }

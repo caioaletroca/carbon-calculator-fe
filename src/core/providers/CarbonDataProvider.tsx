@@ -1,5 +1,5 @@
 import React from "react";
-import { CarbonData, Usage } from "core/types";
+import { CarbonData } from "core/types";
 import session from 'core/stores/SessionStorage';
 
 interface CarbonDataContextProps {
