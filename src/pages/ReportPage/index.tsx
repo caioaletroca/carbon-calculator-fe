@@ -40,7 +40,7 @@ export default function ReportPage() {
                                 {
                                     usagesByCategory &&
                                     Object.entries(usagesByCategory as any).map(([ category, data ], index) => (
-                                        <Grid key={index} item xs={4}>
+                                        <Grid key={index} item xs={12} sm={6} md={4}>
                                             <Card category={category} data={data as ReportData[]} />
                                         </Grid>
                                     ))
