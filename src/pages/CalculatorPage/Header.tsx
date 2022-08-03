@@ -13,18 +13,24 @@ import ConfirmationDialog from "commons/ConfirmationDialog";
 import session from 'core/stores/SessionStorage';
 import styles from './Header.module.scss';
 import LoadingButton from '@mui/lab/LoadingButton';
+import { useSnackbar } from "notistack";
 
 export default function Header() {
     const navigate = useNavigate();
+    const { enqueueSnackbar } = useSnackbar();
     const [open, setOpen] = React.useState(false);
     const { data: carbonData, persist, clear: clearCarbonData } = useCarbonData();
     const { setReport, clear: clearReport } = useReport();
 
-    const { mutate, isLoading } = useMutation(CalculatorService.post);
+    const { mutate, isLoading } = useMutation(CalculatorService.post, {
+        onError: async () => enqueueSnackbar('An error occurred when accessing the server')
+    });
 
     const handleClick = () => {
-        mutate(carbonData, {
-            onSuccess: handleSuccess
+        const payload = Object.values(carbonData).reduce((sum, data) => [ ...sum, ...data ], []);
+
+        mutate(payload, {
+            onSuccess: handleSuccess,   
         });
         persist();
     }

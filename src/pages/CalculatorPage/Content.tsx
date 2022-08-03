@@ -9,12 +9,13 @@ import Item from "./Item";
 import { useCarbonData } from "core/hooks";
 import styles from './Content.module.scss';
 import EmptyMessage from "./EmptyMessage";
+import { Category, Usage } from "core/types";
 
 export default function CalculatorPageContent() {
     const { category } = useParams();
     const { data: carbonData, addEmpty } = useCarbonData();
-    const { data: categories } = useQuery(['categories'], CategoryService.get);
-    const { data: usages } = useQuery(['usages', category], () => CategoryService.getUsages(Number(category)), {
+    const { data: categories } = useQuery<Category[]>(['categories'], CategoryService.get);
+    const { data: usages } = useQuery<Usage[]>(['usages', category], () => CategoryService.getUsages(Number(category)), {
         enabled: !!categories
     });
 
@@ -22,18 +23,18 @@ export default function CalculatorPageContent() {
         <>
             <div className={styles.wrapper}>
                 {
-                    carbonData.length === 0 ?
-                    <EmptyMessage /> :
-                    carbonData.map((carbon, index) => (
+                    carbonData[category || '']?.length > 0 ?
+                    carbonData[category || '']?.map((carbon, index) => (
                         <Item key={index} id={index} {...carbon} usages={usages} />
-                    ))
+                    )) :
+                    <EmptyMessage />
                 }
             </div>
             <Box className={styles.fabButton}>
                 <Tooltip title='Add new usage'>
                     <Fab
                         color='primary'
-                        onClick={() => addEmpty()}>
+                        onClick={() => addEmpty(category)}>
                         <FontAwesomeIcon icon={faPlus} size="2x" />
                     </Fab>
                 </Tooltip>

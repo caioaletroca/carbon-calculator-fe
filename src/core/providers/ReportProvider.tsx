@@ -31,7 +31,7 @@ export function ReportProvider({ children }: ReportProviderProps) {
     const clear = () => setData(initialValue);
 
     React.useEffect(() => {
-        const persisted = session.load('report');
+        const persisted = session.load('report') || initialValue;
         setData(persisted);
     }, []);
 

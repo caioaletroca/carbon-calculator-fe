@@ -3,11 +3,12 @@ import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import { ThemeProvider } from '@emotion/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import './index.scss';
+import { SnackbarProvider } from 'notistack';
 import reportWebVitals from './reportWebVitals';
-import App from './App';
-import theme from 'styles';
 import { CarbonDataProvider, ReportProvider } from 'core/providers';
+import App from './App';
+import './index.scss';
+import theme from 'styles';
 
 const queryClient = new QueryClient();
 
@@ -18,13 +19,15 @@ root.render(
   <React.StrictMode>
     <BrowserRouter>
       <ThemeProvider theme={theme}>
-        <QueryClientProvider client={queryClient}>
-          <CarbonDataProvider>
-            <ReportProvider>
-              <App />
-            </ReportProvider>
-          </CarbonDataProvider>
-        </QueryClientProvider>
+        <SnackbarProvider maxSnack={3}>
+            <QueryClientProvider client={queryClient}>
+              <CarbonDataProvider>
+                <ReportProvider>
+                  <App />
+                </ReportProvider>
+              </CarbonDataProvider>
+            </QueryClientProvider>
+        </SnackbarProvider>
       </ThemeProvider>
     </BrowserRouter>
   </React.StrictMode>
