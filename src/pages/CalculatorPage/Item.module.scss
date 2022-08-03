@@ -1,0 +1,11 @@
+.paper {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 1em;
+    padding: 1em;
+}
+
+.removeBox {
+    display: flex;
+    justify-content: flex-end;
+}
