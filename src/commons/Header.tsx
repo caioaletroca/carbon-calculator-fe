@@ -6,6 +6,7 @@ import Typography from '@mui/material/Typography';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { IconButton } from '@mui/material';
+import styles from './Header.module.scss';
 
 export interface HeaderProps {
   onBack?: (e: React.SyntheticEvent) => void,
@@ -20,6 +21,8 @@ export default function Header({ onBack, children }: HeaderProps) {
           {
             onBack &&
             <IconButton
+              className={styles.backButton}
+              color='inherit'
               onClick={onBack}>
               <FontAwesomeIcon icon={faArrowLeft} />
             </IconButton>
