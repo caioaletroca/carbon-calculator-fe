@@ -1,8 +1,6 @@
-import { Box } from "@mui/material";
-import Header from "./Header";
-import { Content, Page, View } from "commons/Layout";
-import React from "react";
 import { Outlet } from "react-router-dom";
+import { Content, Page, View } from "commons/Layout";
+import Header from "./Header";
 import Tabs from './Tabs'
 
 export default function CalculatorPage() {

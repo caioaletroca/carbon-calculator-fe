@@ -1,5 +1,5 @@
 import { Report } from "core/types";
-import React, { Children } from "react";
+import React from "react";
 import session from 'core/stores/SessionStorage';
 
 interface ReportDataProvider extends Report {

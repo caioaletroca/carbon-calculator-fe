@@ -10,7 +10,7 @@ export default function Tabs() {
     const { category } = useParams();
     
     const navigate = useNavigate();
-    const { data: categories, isLoading, isSuccess } = useQuery<Category[]>(['categories'], CategoryService.get);
+    const { data: categories, isSuccess } = useQuery<Category[]>(['categories'], CategoryService.get);
 
     const handleChange = (e: React.SyntheticEvent, newValue: string) => {
         navigate(`/calculator/${newValue}`);
