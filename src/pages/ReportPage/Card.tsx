@@ -1,4 +1,4 @@
-import { Card as MuiCard, CardContent, Grid, List, ListItem, ListItemSecondaryAction, ListItemText, Paper, Typography } from "@mui/material";
+import { Card as MuiCard, CardContent, List, ListItem, ListItemSecondaryAction, ListItemText, Typography } from "@mui/material";
 import { ReportData } from "core/types";
 import styles from './Card.module.scss';
 
@@ -21,7 +21,7 @@ export default function Card({ category, data }: CardProps) {
                         <ListItem key={id}>
                             <ListItemText primary={name} />
                             <ListItemSecondaryAction>
-                                <Typography>{value.toFixed(2)} kg CO2e/yr</Typography>
+                                <Typography>{value.toFixed(2)} kg CO<sub>2</sub> e/yr</Typography>
                             </ListItemSecondaryAction>
                         </ListItem>
                     ))}

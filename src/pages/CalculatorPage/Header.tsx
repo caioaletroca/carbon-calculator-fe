@@ -1,4 +1,4 @@
-import { Button, IconButton, Tooltip } from "@mui/material"
+import { IconButton, Tooltip } from "@mui/material"
 import { useMutation } from "@tanstack/react-query";
 import { default as HeaderCommons } from "commons/Header"
 import { CalculatorService } from "core/queries";
@@ -11,6 +11,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import ConfirmationDialog from "commons/ConfirmationDialog";
 import session from 'core/stores/SessionStorage';
+import styles from './Header.module.scss';
+import LoadingButton from '@mui/lab/LoadingButton';
 
 export default function Header() {
     const navigate = useNavigate();
@@ -18,7 +20,7 @@ export default function Header() {
     const { data: carbonData, persist, clear: clearCarbonData } = useCarbonData();
     const { setReport, clear: clearReport } = useReport();
 
-    const { mutate } = useMutation(CalculatorService.post);
+    const { mutate, isLoading } = useMutation(CalculatorService.post);
 
     const handleClick = () => {
         mutate(carbonData, {
@@ -49,16 +51,19 @@ export default function Header() {
             />
             <Tooltip title='Erase data'>
                 <IconButton
+                    color='inherit'
                     onClick={() => setOpen(true)}>
-                    <FontAwesomeIcon icon={faTrash} />
+                    <FontAwesomeIcon icon={faTrash} size='xs' />
                 </IconButton>
             </Tooltip>
-            <Button
-                color='secondary'
+            <LoadingButton
+                className={styles.calculateButton}
+                color='info'
                 variant='contained'
+                loading={isLoading}
                 onClick={handleClick}>
                 Calculate
-            </Button>
+            </LoadingButton>
         </HeaderCommons>
     )
 }
