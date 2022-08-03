@@ -25,7 +25,7 @@ export default function Item({
     const { category } = useParams();
     const { update, remove } = useCarbonData();
     const { data: time_types, isLoading: timeTypesLoading } = useQuery<Unit[]>(['units', 'time'], UnitService.getByType);
-    const { data: units, isLoading: unitsLoading } = useQuery<Unit[]>(['units', usage?.unit_type], UnitService.getByType, {
+    const { data: units } = useQuery<Unit[]>(['units', usage?.unit_type], UnitService.getByType, {
         enabled: !!usage
     });
 
@@ -43,7 +43,7 @@ export default function Item({
         update(category, id, { [e.target.name]: e.target.value });
     }
     
-    if(timeTypesLoading || unitsLoading || !usages)
+    if(timeTypesLoading || !usages)
         return (
             <Paper className={styles.paper}>
                 <div className={styles.loadingWrapper}>

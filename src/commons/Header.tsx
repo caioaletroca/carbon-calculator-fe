@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { IconButton } from '@mui/material';
 import styles from './Header.module.scss';
+import { useNavigate } from 'react-router-dom';
 
 export interface HeaderProps {
   onBack?: (e: React.SyntheticEvent) => void,
@@ -14,6 +15,10 @@ export interface HeaderProps {
 }
 
 export default function Header({ onBack, children }: HeaderProps) {
+  const navigate = useNavigate();
+
+  const handleClick = () => navigate('/');
+
   return (
     <Box>
       <AppBar position="static">
@@ -27,7 +32,12 @@ export default function Header({ onBack, children }: HeaderProps) {
               <FontAwesomeIcon icon={faArrowLeft} />
             </IconButton>
           }
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+          <Typography
+            className={styles.title}
+            variant="h6"
+            component="div"
+            sx={{ flexGrow: 1 }}
+            onClick={handleClick}>
             Carbon Calculator
           </Typography>
           {children}

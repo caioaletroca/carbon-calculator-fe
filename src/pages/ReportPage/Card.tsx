@@ -17,8 +17,8 @@ export default function Card({ category, data }: CardProps) {
             <CardContent>
                 <Typography color="text.secondary" gutterBottom>{categoryName}</Typography>
                 <List>
-                    {data.map(({ id, name, value }) => (
-                        <ListItem key={id}>
+                    {data.map(({ id, name, value }, index, array) => (
+                        <ListItem key={id} divider={index < array.length - 1}>
                             <ListItemText primary={name} />
                             <ListItemSecondaryAction>
                                 <Typography>{value.toFixed(2)} kg CO<sub>2</sub> e/yr</Typography>
