@@ -23,23 +23,32 @@ export default function ReportPage() {
     }, [data, categories]);
 
     const handleBack = () => navigate(-1)
-
+    
     return (
         <Page>
             <Header onBack={handleBack} />
             <View>
                 <Content padding>
-                    <Paper className={styles.title}>
-                        <Typography variant="h5" gutterBottom>Report</Typography>
-                        <Typography color="text.primary">Total CO<sub>2</sub> emission in a year is {sum.toFixed(2)} kg</Typography>
-                    </Paper>
-                    <Grid container spacing={2}>
-                        {Object.entries(usagesByCategory as any).map(([ category, data ], index) => (
-                            <Grid key={index} item xs={4}>
-                                <Card category={category} data={data as ReportData[]} />
+                    {
+                        sum && data ?
+                        <>
+                            <Paper className={styles.title}>
+                                <Typography variant="h5" gutterBottom>Report</Typography>
+                                <Typography color="text.primary">Total CO<sub>2</sub> emission in a year is {sum.toFixed(2)} kg</Typography>
+                            </Paper>
+                            <Grid container spacing={2}>
+                                {
+                                    usagesByCategory &&
+                                    Object.entries(usagesByCategory as any).map(([ category, data ], index) => (
+                                        <Grid key={index} item xs={4}>
+                                            <Card category={category} data={data as ReportData[]} />
+                                        </Grid>
+                                    ))
+                                }
                             </Grid>
-                        ))}
-                    </Grid>
+                        </> :
+                        null
+                    }
                 </Content>
             </View>
         </Page>
